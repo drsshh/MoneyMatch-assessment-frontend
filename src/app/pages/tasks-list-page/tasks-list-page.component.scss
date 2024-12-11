@@ -1,0 +1,18 @@
+.todo-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.add-new {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 800px) {
+  .todo-container {
+    width: 100%;
+  }
+}
