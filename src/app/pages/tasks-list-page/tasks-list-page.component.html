@@ -1,22 +1,40 @@
 <div class="container-fluid mt-4">
 
-    <div class="todo-container">
-      <div class="add-new">
-        <button type="button" class="btn btn-primary">
-          Add
-          <i class="bi-alarm"></i>
-        </button>
+  <div class="todo-container">
+    <div class="add-new">
+      <button type="button" class="btn btn-primary" #myModalAdd data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add
+        <i class="bi bi-plus-lg"></i>
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="card-header header">
+        Todo List
+        <span (click)="deleteAll()" class="delete-all">Delete All</span>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item">
-          abc
-        </li>
-        <li class="list-group-item">
-          abc
-        </li>
-        <li class="list-group-item">
-          abc
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let task of tasks;">
+          <div class="tasks">
+            <div class="detail">
+              <div class="top">
+                <h5 class="card-title">{{ task.title }}</h5>
+                <p class="current-progress" [attr.data-progress]="task.progress"></p>
+              </div>
+              <p class="card-text">{{task.description}}</p>
+            </div>
+            <div class="buttons">
+              <i class="btn-icon bi bi-pencil-square" (click)="editTask(task)"></i>
+              <i class="btn-icon bi bi-trash" (click)="removeTask(task)"></i>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
+
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <app-edit-page></app-edit-page>
+  </div>
 </div>

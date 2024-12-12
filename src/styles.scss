@@ -2,8 +2,7 @@
 
 :root {
   --bs-body-font-family: 'Open Sans', sans-serif;
-  --bs-body-color: var(--color-text);
-  // standard body font-size is 16px. don't change or it will screw up the entire bootstrap sizing.
+  --bs-body-color: #000000;
   --bs-body-font-size: 16px;
   --bs-body-bg: #e3e0e0;
   --bs-border-color: #110f0f;
@@ -12,4 +11,15 @@
 html,
 body {
   scroll-behavior: smooth;
+}
+
+.btn-icon {
+  cursor: pointer;
+  color: black;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.btn-icon:hover {
+  transform: scale(1.2); /* Grow the icons by 20% on hover */
+  color: #007bff; /* Optional: Change color on hover */
 }

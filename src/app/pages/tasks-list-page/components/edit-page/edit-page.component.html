@@ -1,1 +1,42 @@
-<p>edit-page works!</p>
+<div class="modal-dialog ">
+  <form [formGroup]="form" (submit)="onAdd()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ mode }} Task</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <label for="title">
+              Title <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              formControlName="title"
+              id="title"
+              class="form-control"
+              [class.is-invalid]="form.get('title')?.dirty && form.get('title')?.invalid"
+            >
+            <div class="invalid-feedback" *ngIf="form.get('title')?.dirty && form.get('title')?.invalid">
+              Required
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="description">
+              Description
+            </label>
+            <input type="text" formControlName="description" id="description" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" #myModalClose data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">{{ mode }}</button>
+      </div>
+    </div>
+  </form>
+
+</div>

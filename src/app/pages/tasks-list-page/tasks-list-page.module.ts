@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {TasksListPageComponent} from './tasks-list-page.component';
 import {EditPageComponent} from './components/edit-page/edit-page.component';
@@ -20,6 +19,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [TasksListPageComponent, EditPageComponent],
-  imports: [ SharedModule, RouterModule.forChild(routes)]
+    imports: [SharedModule, RouterModule.forChild(routes)]
 })
 export class TasksListPageModule { }

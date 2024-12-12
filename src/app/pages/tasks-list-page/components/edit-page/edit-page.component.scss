@@ -1,0 +1,19 @@
+span.required {
+  color: #cd202c;
+}
+
+.form-control.is-invalid {
+  --bs-form-invalid-border-color: #cd202c;
+  padding-right: 24px;
+  background-image: unset;
+  background-repeat: unset;
+  background-position: unset;
+  background-size: unset;
+}
+
+.invalid-feedback {
+  --bs-form-invalid-color: var(--color-text-invalid);
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: unset;
+}

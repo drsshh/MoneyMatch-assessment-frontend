@@ -11,6 +11,75 @@
   margin-bottom: 12px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-all {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline; /* Optional: adds an underline to mimic a link */
+}
+
+.delete-all:hover {
+  color: darkblue; /* Optional: slightly darker blue on hover for a nice effect */
+}
+
+.tasks {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+
+  .detail {
+    max-width: 80%;
+    text-align: justify;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      margin: 0; // Remove margin to ensure it fits better
+      white-space: nowrap; // Prevent title from wrapping
+    }
+
+    .card-text {
+      font-size: 14px;
+    }
+  }
+
+  .current-progress {
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-block;
+  }
+
+  .current-progress[data-progress="F"]::after {
+    content: "Finished";
+    color: green;
+  }
+
+  .current-progress[data-progress="R"]::after {
+    content: "Removed";
+    color: red;
+  }
+
+  .current-progress[data-progress="D"]::after {
+    content: "Not Yet Done";
+    color: #8a7e6f;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 16px;
+  }
+}
+
+
 @media (max-width: 800px) {
   .todo-container {
     width: 100%;

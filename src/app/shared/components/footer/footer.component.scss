@@ -1,0 +1,17 @@
+footer,
+.footer {
+  width: 100%;
+  position: absolute;
+  background: #e8edfa;
+  padding: 24px 16px;
+  bottom: 0;
+  text-align: center;
+}
+
+
+@media (min-width: 1400px) {
+  footer,
+  .footer {
+    padding: 40px 56px;
+  }
+}
