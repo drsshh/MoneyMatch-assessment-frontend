@@ -50,14 +50,15 @@ export class EditPageComponent implements OnInit, AfterViewInit {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       description: [''],
-      progress: ['', Validators.required]
+      progress: ['D', Validators.required]
     });
   }
 
   patchFormValues(task: TasksData): void {
     this.form.patchValue({
       title: task.title,
-      description: task.description
+      description: task.description,
+      progress: task.progress
     });
 
     this.mode = 'Update';
@@ -71,15 +72,16 @@ export class EditPageComponent implements OnInit, AfterViewInit {
 
     let data = this.form.getRawValue();
 
-    data = {
-      ...data,
-      progress: 'D'
-    }
-
     let response: Response | null = null;
     if (this.mode === 'Add') {
       response = await this.tlpService.addTask(data);
     } else if (this.mode === 'Update') {
+
+      data = {
+        ...data,
+        id: this.tlpService.selectedTask?.id
+      };
+
       response = await this.tlpService.updateTask(data);
     }
 

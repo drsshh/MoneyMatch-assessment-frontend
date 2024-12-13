@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksListPageService {
+
+  filterReq: GetTaskRequest = {
+    value: 'All'
+  };
 
   private _tasksList = new BehaviorSubject<TasksData[]>([]);
   tasksList$ = this._tasksList.asObservable();
@@ -30,17 +35,28 @@ export class TasksListPageService {
   }
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private toastr: ToastrService
   ) { }
 
-  async getTasks(): Promise<TasksData[]> {
+  async getTasks(req: GetTaskRequest): Promise<TasksData[]> {
     let response: getTasksResponse;
 
     response = await firstValueFrom(
-      this.http.post<getTasksResponse>('/tasks/gettasks', null)
+      this.http.post<getTasksResponse>('/tasks/gettasks', req)
     );
 
-    this.setTasksList(response.tasks);
+    if (response.errorCode === '0') {
+      this.setTasksList(response.tasks);
+
+      this.toastr.success(
+        'Tasks list updated.',
+        'Success'
+      );
+    } else {
+      this.toastr.error('Failed to process task.', 'Error');
+    }
+
 
     return response.tasks;
   }
@@ -53,7 +69,7 @@ export class TasksListPageService {
     );
 
     if (response.errorCode === '0') {
-      const currentTasks = this.tasksList || [];
+      const currentTasks: TasksData[] = this.tasksList || [];
       this.setTasksList([...currentTasks, task]);
     }
 
@@ -68,9 +84,16 @@ export class TasksListPageService {
     );
 
     if (response.errorCode === '0') {
-      const currentTasks = this.tasksList || [];
-      const updatedTasks = currentTasks.filter(t => t.id !== task.id);
+      const currentTasks: TasksData[] = this.tasksList || [];
+      const updatedTasks: TasksData[] = currentTasks.filter(t => t.id !== task.id);
       this.setTasksList(updatedTasks);
+
+      this.toastr.success(
+        'Task Updated Successfully.',
+        'Success'
+      );
+    } else {
+      this.toastr.error('Failed to process task.', 'Error');
     }
 
     this.setSelectedTask(null);
@@ -85,11 +108,25 @@ export class TasksListPageService {
     );
 
     if (response.errorCode === '0') {
-      const currentTasks = this.tasksList || [];
-      const updatedTasks = currentTasks.map(t =>
-        t.id === task.id ? task : t
-      );
+      const currentTasks: TasksData[] = this.tasksList || [];
+      let updatedTasks: TasksData[];
+
+      if (task.progress === 'F') {
+        updatedTasks = currentTasks.filter(t => t.id !== task.id);
+      } else {
+        updatedTasks = currentTasks.map(t =>
+          t.id === task.id ? task : t
+        );
+      }
+
       this.setTasksList(updatedTasks);
+
+      this.toastr.success(
+        'Task Updated Successfully.',
+        'Success'
+      );
+    } else {
+      this.toastr.error('Failed to process task.', 'Error');
     }
 
     this.setSelectedTask(null);
@@ -102,6 +139,8 @@ export class TasksListPageService {
     response = await firstValueFrom(
       this.http.post<Response>('/tasks/deletealltasks', null)
     );
+
+    this.setTasksList([]);
 
     return response;
   }
@@ -123,6 +162,10 @@ export interface TasksData {
 
 interface getTasksResponse extends Response {
   tasks: TasksData[];
+}
+
+export interface GetTaskRequest {
+  value: string;
 }
 
 

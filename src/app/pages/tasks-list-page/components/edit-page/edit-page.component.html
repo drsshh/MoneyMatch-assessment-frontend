@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-12 mt-4">
+          <div class="col-12">
             <label for="title">
               Title <span class="required">*</span>
             </label>
@@ -30,12 +30,13 @@
             <input type="text" formControlName="description" id="description" class="form-control">
           </div>
 
-          <div class="col-12 mt-4">
+          <div class="col-12 mt-4 mb-4">
             <label for="progress">
               Progress
             </label>
             <select id="progress" formControlName="progress" class="form-select">
-
+              <option value="D">Not done</option>
+              <option value="F">Finished</option>
             </select>
 
             <div class="invalid-feedback" *ngIf="form.get('progress')?.dirty && form.get('progress')?.invalid">

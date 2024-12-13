@@ -1,12 +1,24 @@
 <div class="container-fluid mt-4">
 
   <div class="todo-container">
-    <div class="add-new">
-      <button type="button" class="btn btn-primary" #myModalAdd data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Add
-        <i class="bi bi-plus-lg"></i>
-      </button>
+
+    <div class="action-top">
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Filter
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" *ngFor="let filter of filterList" (click)="onFilter(filter)">{{filter.label}}</a>
+        </div>
+      </div>
+      <div class="add-new">
+        <button type="button" class="btn btn-primary" #myModalAdd data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Add
+          <i class="bi bi-plus-lg"></i>
+        </button>
+      </div>
     </div>
+
 
     <div class="card">
       <div class="card-header header">
@@ -24,8 +36,12 @@
               <p class="card-text">{{task.description}}</p>
             </div>
             <div class="buttons">
-              <i class="btn-icon bi bi-pencil-square" (click)="editTask(task)"></i>
-              <i class="btn-icon bi bi-trash" (click)="removeTask(task)"></i>
+              <i class="btn-icon bi bi-pencil-square"
+                 (click)="editTask(task)"
+                 *ngIf="task.progress === 'D'"></i>
+              <i class="btn-icon bi bi-trash"
+                 (click)="removeTask(task)"
+                 *ngIf="task.progress === 'D'"></i>
             </div>
           </div>
         </li>

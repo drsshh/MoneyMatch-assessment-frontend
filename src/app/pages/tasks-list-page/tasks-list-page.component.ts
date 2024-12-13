@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {TasksData, TasksListPageService} from './tasks-list-page.service';
+import {GetTaskRequest, TasksData, TasksListPageService} from './tasks-list-page.service';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -14,6 +14,29 @@ export class TasksListPageComponent implements OnInit{
   tasks: TasksData[] = [];
 
   subscription: Subscription[] = [];
+
+  filterList: FilterData[] = [
+    {
+      value: 'F',
+      label: 'Finished'
+    },
+    {
+      value: 'D',
+      label: 'Not done'
+    },
+    {
+      value: 'R',
+      label: 'Removed'
+    },
+    {
+      value: 'All',
+      label: 'All'
+    }
+  ]
+
+  requestData: GetTaskRequest = {
+    value: 'All'
+  };
 
   constructor(
     private tlpService: TasksListPageService
@@ -33,12 +56,13 @@ export class TasksListPageComponent implements OnInit{
   }
 
   async getTasks() {
-    this.tasks = await this.tlpService.getTasks();
+    this.requestData = {
+      value: 'All'
+    }
+    this.tasks = await this.tlpService.getTasks(this.requestData);
   }
   async deleteAll() {
     await this.tlpService.deleteAllTasks();
-
-    this.tasks = [];
   }
 
   async removeTask(task: TasksData){
@@ -53,4 +77,16 @@ export class TasksListPageComponent implements OnInit{
     console.log(this.tlpService.selectedTask);
     this.modalAdd.nativeElement.click();
   }
+
+  async onFilter(filter: FilterData) {
+    this.requestData = {
+      value: filter.value
+    }
+    this.tasks = await this.tlpService.getTasks(this.requestData);
+  }
+}
+
+interface FilterData {
+  value: string;
+  label: string;
 }

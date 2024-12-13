@@ -4,12 +4,19 @@
   padding: 0 15px;
 }
 
-.add-new {
+.action-top {
   display: flex;
-  justify-content: end;
-  align-items: center;
-  margin-bottom: 12px;
+  justify-content: space-between;
+
+  .add-new {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 12px;
+  }
 }
+
+
 
 .header {
   display: flex;
@@ -41,6 +48,12 @@
       justify-content: space-between;
       gap: 40px;
 
+      .card-title {
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       .current-progress {
         font-weight: bold;
         font-size: 14px;
@@ -58,7 +71,7 @@
       }
 
       .current-progress[data-progress="D"]::after {
-        content: "Not Yet Done";
+        content: "Not Done";
         color: #8a7e6f;
       }
 
