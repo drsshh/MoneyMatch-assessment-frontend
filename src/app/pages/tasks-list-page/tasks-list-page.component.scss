@@ -34,43 +34,39 @@
   .detail {
     max-width: 80%;
     text-align: justify;
+    flex-grow: 1;
 
     .top {
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      flex-wrap: wrap;
-    }
+      gap: 40px;
 
-    .card-title {
-      margin: 0; // Remove margin to ensure it fits better
-      white-space: nowrap; // Prevent title from wrapping
+      .current-progress {
+        font-weight: bold;
+        font-size: 14px;
+        display: inline-block;
+      }
+
+      .current-progress[data-progress="F"]::after {
+        content: "Finished";
+        color: green;
+      }
+
+      .current-progress[data-progress="R"]::after {
+        content: "Removed";
+        color: red;
+      }
+
+      .current-progress[data-progress="D"]::after {
+        content: "Not Yet Done";
+        color: #8a7e6f;
+      }
+
     }
 
     .card-text {
       font-size: 14px;
     }
-  }
-
-  .current-progress {
-    font-weight: bold;
-    font-size: 14px;
-    display: inline-block;
-  }
-
-  .current-progress[data-progress="F"]::after {
-    content: "Finished";
-    color: green;
-  }
-
-  .current-progress[data-progress="R"]::after {
-    content: "Removed";
-    color: red;
-  }
-
-  .current-progress[data-progress="D"]::after {
-    content: "Not Yet Done";
-    color: #8a7e6f;
   }
 
   .buttons {

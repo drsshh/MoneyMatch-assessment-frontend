@@ -1,10 +1,8 @@
-import {Component, ElementRef, OnDestroy, OnInit,  ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Response, TasksData, TasksListPageService} from '../../tasks-list-page.service';
 import {ToastrService} from 'ngx-toastr';
 import {Subscription} from 'rxjs';
-
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-edit-page',
@@ -12,8 +10,9 @@ declare var bootstrap: any;
   templateUrl: './edit-page.component.html',
   styleUrl: './edit-page.component.scss'
 })
-export class EditPageComponent implements OnInit, OnDestroy {
+export class EditPageComponent implements OnInit, AfterViewInit {
   @ViewChild('myModalClose') modalClose!: ElementRef<HTMLButtonElement>;
+
   form!: FormGroup;
 
   mode: 'Add' | 'Update' = 'Add';
@@ -28,7 +27,6 @@ export class EditPageComponent implements OnInit, OnDestroy {
     this.createForm();
   }
 
-
   ngOnInit() {
     this.subscriptions.push(
       this.tlpService.selectedTask$.subscribe(
@@ -41,10 +39,18 @@ export class EditPageComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngAfterViewInit() {
+    const modal = document.getElementById('exampleModal');
+    if (modal) {
+      modal.addEventListener('hidden.bs.modal', this.onModalHidden.bind(this));
+    }
+  }
+
   createForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
-      description: ['']
+      description: [''],
+      progress: ['', Validators.required]
     });
   }
 
@@ -70,7 +76,7 @@ export class EditPageComponent implements OnInit, OnDestroy {
       progress: 'D'
     }
 
-    let response: Response | null = null; // Initialize response to null
+    let response: Response | null = null;
     if (this.mode === 'Add') {
       response = await this.tlpService.addTask(data);
     } else if (this.mode === 'Update') {
@@ -87,10 +93,12 @@ export class EditPageComponent implements OnInit, OnDestroy {
     } else {
       this.toastr.error('Failed to process task.', 'Error');
     }
-
   }
 
-  ngOnDestroy() {
+  onModalHidden(){
+    this.tlpService.setSelectedTask(null);
+    this.form.reset();
     this.mode = 'Add';
   }
+
 }

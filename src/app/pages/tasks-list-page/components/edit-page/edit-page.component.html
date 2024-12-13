@@ -1,4 +1,4 @@
-<div class="modal-dialog ">
+<div class="modal-dialog" #myModal>
   <form [formGroup]="form" (submit)="onAdd()">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col">
+          <div class="col-12 mt-4">
             <label for="title">
               Title <span class="required">*</span>
             </label>
@@ -22,18 +22,31 @@
               Required
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col">
+
+          <div class="col-12 mt-4">
             <label for="description">
               Description
             </label>
             <input type="text" formControlName="description" id="description" class="form-control">
           </div>
+
+          <div class="col-12 mt-4">
+            <label for="progress">
+              Progress
+            </label>
+            <select id="progress" formControlName="progress" class="form-select">
+
+            </select>
+
+            <div class="invalid-feedback" *ngIf="form.get('progress')?.dirty && form.get('progress')?.invalid">
+              Required
+            </div>
+          </div>
         </div>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" #myModalClose data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" #myModalClose data-bs-dismiss="modal" [ngModel]="">Cancel</button>
         <button type="submit" class="btn btn-primary">{{ mode }}</button>
       </div>
     </div>
